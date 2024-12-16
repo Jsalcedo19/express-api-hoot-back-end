@@ -97,4 +97,19 @@ router.delete("/:id", verifyToken, async (req, res) => {
   }
 });
 
+router.put('/:id/comments/:commentId', async (req, res) => {
+  try {
+    const hoot = await Hoot.findById(req.params.id);
+    const comment = hoot.comments.id(req.params.commentId);
+    comment.text = req.body.text;
+    await hoot.save();
+    res.status(200).json(comment);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+
+
+});
+
+
 export default router;
